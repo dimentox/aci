@@ -27,6 +27,19 @@ FALLBACK_MODEL_REPO = "sshleifer/tiny-gpt2"
 MANIFEST_FILENAME = "core_agent_manifest.json"
 
 
+def print_colab_helper_instructions(model_path: Path) -> None:
+    LOGGER.info("No Core Agent artefacts detected at %s", model_path)
+    LOGGER.info(
+        "To forge new weights, open Colab, load bootstrap/aci_bootstrap_notebook.py,"
+        " set HF_TOKEN & HF_USERNAME, run all cells with genesis mode, and download"
+        " the exported model into this path."
+    )
+    LOGGER.info(
+        "Prefer a published agent? Choose endpoint mode to download"
+        " https://huggingface.co/dimentox/aci-core-model or your own registry."
+    )
+
+
 def parse_args(argv: Optional[List[str]] = None) -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Red Queen master node service")
     parser.add_argument(
@@ -178,6 +191,11 @@ def provision_via_genesis(model_path: Path) -> Dict[str, Any]:
     }
     write_manifest(model_path, manifest)
     LOGGER.info("Genesis provisioning placeholder created. Replace artefacts with trained weights as needed.")
+    LOGGER.info(
+        "Next steps: run the Colab helper in genesis mode and copy the exported"
+        " model artefacts into %s before restarting Red Queen.",
+        model_path,
+    )
     return manifest
 
 
@@ -202,6 +220,9 @@ def bootstrap_core_agent(
         }
         write_manifest(model_path, manifest)
         return manifest
+
+    if not model_exists(model_path) or force:
+        print_colab_helper_instructions(model_path)
 
     mode = mode_hint or prompt_for_mode()
     if mode == "endpoint":
@@ -334,6 +355,10 @@ def print_join_instructions(host: str, port: int, public_url: Optional[str]) -> 
         ]
     )
     LOGGER.info("Example join command:\n%s", join_example)
+    LOGGER.info(
+        "Helper script available: python endpoint_service.py --node-id NODE --master-url %s",
+        join_url,
+    )
 
 
 def main(argv: Optional[List[str]] = None) -> None:

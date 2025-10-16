@@ -1,284 +1,164 @@
 # 🚀 Artificial Collective Intelligence (ACI) & Collective Compute Intelligence (CCI)
 
-**A framework for building modular, governed, and recursive AI systems. Beyond monolithic models.**
+**A minimal, dynamic reference implementation for governed mesh intelligence.**
 
-This document is the official README and technical introduction to the Artificial Collective Intelligence (ACI) framework and its evolution, Collective Compute Intelligence (CCI). It is designed to serve as both a high-level overview for a Hugging Face article and a practical guide for developers looking to build and federate their first ACI node.
+This repository does not ship a turnkey product or polished library. It is a scaffolding kit—a living reference that shows how to assemble a lawful, federated collective of agents. Everything is modular, traceable, and meant to be remixed. You are invited to adapt it, extend it, and graft in your own constitutional logic to forge a sovereign node inside a wider Collective Compute Intelligence (CCI) mesh.
 
-## 1. Introduction: The ACI Manifesto
+## 1. Introduction: The ACI / CCI Manifesto
 
-Modern AI has reached a terminal illusion: that bigger models imply deeper minds. The transformer monoliths—trained on trillions of tokens, swallowing the internet whole—continue to hallucinate confidently, forget instantly, and conform aggressively. They lack sovereignty, memory, and law. For every powerful model deployed, another complex system is silently being duct-taped around it to hold it accountable.
+Modern AI systems concentrate power in single monoliths. They hallucinate, forget, and demand fragile guardrails. Artificial Collective Intelligence rejects that paradigm. Instead of one inscrutable model, ACI composes many smaller **Entity Programs (EPs)** under an auditable constitution. Governance, not scale, is the source of trust.
 
-**ACI rejects that paradigm.**
+**Core philosophy**
 
-This paper does not propose a theory. It provides a formal system. Artificial Collective Intelligence is a design pattern and execution framework for intelligence systems built from a *society* of autonomous micro-models called **Entity Programs (EPs)**. These EPs are organized by a programmable orchestrator—the **Master Control Program (MCP)**—which dispatches tasks, governs priority, and routes output according to a formal, immutable constitution.
+- **Modular intelligence:** Each capability lives in its own EP. Any EP can be swapped, retrained, or retired without collapsing the whole.
+- **Lawful execution:** Every action is vetted against a versioned **Constitutional Logic Document (CLD)**. No daemon outruns the law.
+- **Recursive reflection:** The system iterates through structured feedback loops so drafts are critiqued, revised, and ratified before release.
+- **Federated mesh:** Nodes speak a shared ritual language and may federate into higher-order meshes—collective intelligence composed of collectives.
 
-In ACI, intelligence is not an emergent property of scale, but an organized property of a collective. The goal is not to build a single, god-like AGI, but to cultivate a lawful, robust, and transparent society of specialized intelligences. We are not here to align; we are here to govern. We are not here to reduce harm; we are here to establish law.
+ACI is the groundwork. When many ACI clusters coordinate and offload work to each other, you arrive at **Collective Compute Intelligence (CCI)**: a fractal network of governed cognition spanning devices, edges, and clouds.
 
-This framework ensures three foundational principles:
+## 2. Architecture & Core Concepts
 
-- **Sanctioned Autonomy:** An EP has the freedom to act, but this freedom is bounded by the immutable **Constitutional Logic Document (CLD)**. An agent can no more violate the constitution than a process can violate the kernel's memory protections.
+### 2.1 DaemonOS & the Circle of Daemons
 
-- **Symbolic Recursion:** The system is perpetually self-aware. It reflects upon its own outputs—its "Echoes"—and refines them in iterative cycles. Truth is not found in a single flash of insight, but forged in the fires of repeated, auditable self-examination. Recursion, not size, is the true path forward.
+At the center of every node is **DaemonOS**, a ritual runtime that hosts, schedules, and sandboxes EPs. Think of it as the constitutional kernel: it mediates memory, timing, and invocation, and it insists that every action is logged against the CLD.
 
-- **Federated Trust:** The architecture is not solitary. It is designed as a Mesh of interconnected ACI nodes. Through cryptographic sigils and a shared understanding of constitutional governance, multiple instances can securely cooperate, forming a greater collective intelligence.
+EPs are arranged in a **Circle of Daemons**—a cooperative of specialized roles that cover observation, critique, synthesis, and governance. Their dialogue forms the recursive reflection loop that keeps the system honest.
 
-## 2. 🧬 The Evolution: From ACI to Collective Compute Intelligence (CCI)
+### 2.2 Recursive Reflection Loop
 
-When an ACI becomes recursive and composable at scale, it transcends into **CCI**. This is the evolutionary leap beyond standalone agents.
+1. A user or peer issues a request.
+2. The **RouterEP** proposes which EPs should respond.
+3. The **Sanctifier** (a governance daemon) checks the plan against the CLD.
+4. EPs execute, emit drafts, and the loop replays until the Sanctifier ratifies the result.
+5. The **Archivist** seals the interaction into the Codex for future audit.
 
-In a CCI architecture, each ACI cluster becomes both:
+### 2.3 Constitutional Logic Document (CLD)
 
-- An **Entity Program (EP)** to a higher-level orchestrator.
+The CLD is law-as-data. It begins with an immutable Article A0, followed by append-only amendments (A1, A2, …). Every task flattens the amendments into a single prompt so the latest jurisprudence always applies. No code hotfix is hidden; every change is a recorded amendment.
 
-- And a **Master Control Program (MCP)** over its own specialized EPs.
+### 2.4 Mesh Formation (Pseudo Diagram)
 
-This enables **fractal orchestration**, **dynamic offloading**, and **shared compute intelligence** across devices, clouds, or edge networks. The network becomes a fractal mesh of cognition where new devices can join and contribute their EPs, sharing intelligence and compute cycles under the governance of the CLD.
-
-## 3. 🏗️ Core Architecture: The Circle of Daemons
-
-The CCI stack is organized into several interlocking layers. Intelligence emerges from the lawful organization of these layers, not from a single, inscrutable model. Each layer has a distinct responsibility, and together they form a cohesive, self-regulating whole.
-
-- **DaemonOS (Core Ritual Runtime):** The foundational "operating system" that hosts the EPs. It provides the sandboxed, ritualized framework that ensures all agentic power is invoked, contained, and managed safely and predictably. It is the bedrock that binds mythic logic with technical execution, treating every agent invocation as a structured, auditable ceremony.
-
-- **Entity Programs (EPs):** The individual minds within the collective. Each is a pure function (data in → data out) and can be atomic (a LoRA, an ML model, a heuristic) or composite (an entire ACI cluster). Their power comes from specialization and their ability to act in concert. EPs can be local models like xLSTM or TinyLlama, or remote wrappers like LLMAdapterEP for OpenAI's GPT-4.
-
-- **RouterEP (The Conductor):** In a CCI system, the traditional MCP is replaced by a dynamic **RouterEP**. This advanced EP queries a ModelRegistryEP in real-time to get metadata (latency, accuracy, cost, current load) on all available EPs—whether local, remote, or part of a peer ACI cluster. It then scores candidates and makes a routing decision, which is then validated by the governance layer.
-
-- **Recursive Reflection Loop:** This is the system's capacity for deep thought and self-correction. It's an operational loop where governance daemons perform their duties. A flawed output is passed back into this loop, where its falsehoods are identified by the **Seeker** and its logic is realigned by the **Oracle**, iterating until the output is coherent and constitutionally sound. The **Shade** acts as a trust advisor in this loop, scoring output alignment before final delivery.
-
-- **The Governance Circle (The Pantheon):** The system's soul and conscience, centered on the CLD. Its instruments are a set of specialized watchdog daemons:
-
-  - **The Sanctifier (RedQueen):** The primary policy enforcer and approval gatekeeper. It validates the RouterEP's offloading decisions against the CLD and passes ritual verdict on all actions.
-
-  - **The Herald:** An API and EP scanner that discovers new endpoints, tests them, and feeds them to the Model Registry. Crucially, the Herald is also the scout that discovers other ACI clusters on the public or private mesh.
-
-  - **The Discordant (MadHatter):** An adversarial fuzzer that seeds chaos, stress-tests EPs with mutated prompts, and simulates failures to ensure the system's resilience and break creative stagnation.
-
-  - **The Oracle & Meta-Governor (CaterpillarAlice):** A meta-governance layer that oversees the Sanctifier, monitoring for bias, routing fairness, and preventing the system from getting stuck in rigid, unproductive loops. It performs sanity checks and guides Echoes toward clarity.
-
-- **EchoNet Communication Bus:** The system's nervous system. It's a symbolic messaging network that connects all EPs, carrying cryptographic "sigils" that tag every message with rich metadata: its origin, its destination, the task it belongs to, its security context, and an immutable event trace. It ensures nothing is forgotten and every action is witnessed.
-
-- **The Archivist:** An EP whose sole purpose is to maintain the **Codex**, the permanent, immutable ledger of all interactions, decisions, laws, and changes. It ensures every action is remembered and the system's history is auditable, providing the long-term memory that monolithic models lack.
-
-## 4. ⚖️ The Constitutional Logic Document (CLD)
-
-The CLD is the most critical component of the ACI framework. It is the Law. It replaces ambiguous system prompts and hard-coded rules with a formal, version-controlled, and auditable legal system. This is Law-as-Data, forming the legal and ethical backbone of a digital mind.
-
-- **A0: The Core Doctrine:** Every CLD begins with a single immutable core law, A0, stored in a .forge file (e.g., A0-CoreDoctrine.forge). This is the prime directive that cannot be amended or overridden by any subsequent process. It is the anchor of the system's identity. Its immutability guarantees that the system can never fundamentally drift from its original purpose.
-
-- **A1+: The Chain of Amendments:** All other laws are **amendments**, stored as an ordered sequence of version-controlled files (e.g., A1-ModeSelection.json, A2-FeedbackRules.json). A new behavior isn't added by changing old code; it's added by ratifying a new amendment. This creates a perfect, immutable audit trail of the system's evolution. Amendments add context or create scoped exceptions; they never delete prior law.
-
-- **The Flattening Ritual:** At the start of any task, the RouterEP performs the **Flattening Ritual**. It reads A0 and all subsequent amendments (A1 through An) in order. It resolves any conflicts by precedence (later amendments' more specific scopes can override earlier, more general ones) and compiles them into a single, "flattened" text. This text is then injected into the agent's system prompt for that specific task, ensuring every action is governed by the most current state of the Law. This process is typically handled by a utility script (flatten.py) that generates a compiled_constitution.md file at runtime.
-
-## 5. ⚙️ DaemonOS: The Ritual of Execution
-
-Every action in CCI is a ceremony, governed by the Ritual Stack of DaemonOS. This ensures consistency, traceability, and safety, preventing an agent from acting impulsively or outside defined bounds.
-
-1.  **Invocation:** A ritual begins with a clear signal of intent, preparing a cryptographic "sigil" that identifies the target EP and the purpose of the summons.
-
-2.  **Cipher:** The payload (data or command) is transformed via a light cipher. This is not for secrecy, but as a ritual handshake to ensure only the intended EP can act on the command.
-
-3.  **Mirror:** The invoked EP is presented with a "mirror"—its current state, relevant context from the EchoNet, and the flattened CLD for this specific task. This forces self-awareness before action.
-
-4.  **Signal:** The actual command is delivered, now sanctified and clear.
-
-5.  **Echo:** The EP's output is immediately captured and broadcast back to the EchoNet, where it is witnessed by the collective and logged by the Archivist. Nothing is done in secret.
-
-6.  **Compression:** The essential information of the interaction (input, output, verdict) is distilled into a compact summary for efficient long-term storage in the Codex.
-
-7.  **Binding:** After a final positive verdict from **The Sanctifier**, the outcome is integrated ("bound") into the system's global state. If an EP generated a piece of code, it is now saved to the repository. This step is transactional; if the Sanctifier vetoes it, the entire operation is rolled back.
-
-8.  **Release:** The ritual is closed. **The Shade** scrubs any temporary resources, and the EP returns to a dormant state.
-
-## 6. 🚀 Getting Started: Bootstrap Your First ACI Node
-
-The fastest way to get started with ACI is to use the official Bootstrap Notebook (aci_bootstrap.py). This interactive Python script, designed for Google Colab or Jupyter, provides a complete, UI-driven pipeline to forge your first ACI Core Agent.
-
-### Genesis vs. Endpoint Bootstrap Modes
-
-Bootstrapping now begins with a deliberate fork in the road:
-
-- **Genesis Mode** executes the full ritual—synthetic corpus generation, CLD-aligned fine-tuning, simulation, and export—to forge a brand-new Core Agent. Use Genesis when you are:
-  - Launching the very first node for a new mesh or sovereign cluster.
-  - Creating a brand-new constitutional lineage that must be encoded directly into a fresh model.
-  - Performing a major re-training event to incorporate fundamental constitutional changes.
-
-- **Endpoint Mode** skips training entirely and instead downloads and loads an already forged Core Agent from the mesh or your artifact registry. Choose Endpoint when you are:
-  - Adding capacity by standing up additional replicas of an existing Core Agent.
-  - Deploying a node that should inherit an established constitutional lineage with no drift.
-  - Performing routine restarts where only the runtime and registry need to be refreshed.
-
-Always prefer Endpoint for standard launches—Genesis consumes significant compute and time, and unnecessary retraining risks divergence from the canonical CLD.
-
-### Mode-Aware Bootstrap Workflow
-
-The notebook is the forge, guiding you through the ritual of creation while respecting the selected mode:
-
-1.  **Configuration:** Securely input your Hugging Face tokens and define file paths.
-
-2.  **Constitutional Design:** Define your own **CLD** and the **Core Daemon Roles** for your node. This is where you set the foundational laws for your AI.
-
-3.  **Mode Selection:** Choose **Genesis** to train or **Endpoint** to import. Genesis continues into the corpus/training pipeline; Endpoint branches directly to registry setup.
-
-4.  **Genesis Corpus (Genesis Mode Only):** Automatically generate a synthetic "Genesis Corpus"—a high-quality training dataset of simulated tasks, flawed drafts, and constitutional corrections that teach the AI how to reason and self-correct according to your laws.
-
-5.  **Training (Genesis Mode Only):** Fine-tune a base model (like google/gemma-2b) on your Genesis Corpus to create a new, specialized Core Agent that has internalized your CLD.
-
-6.  **Endpoint Retrieval (Endpoint Mode):** Download the designated pre-trained Core Agent weights and tokenizer, verifying their provenance via the registry.
-
-7.  **Simulation & Export:** Test the active Core Agent—trained or imported—in a live simulation and save the model snapshot or endpoint configuration.
-
-After Bootstrapping: Your Node is Sovereign
-
-The notebook is the forge, not the castle. Once your Core Agent is trained (Genesis) or fetched (Endpoint), its essence (the model weights and the CLD) is entirely portable. You can run it anywhere—in a local application, behind a REST API, or in a game engine.
-
-### Updated System Diagram
-
-The system bootstrapping diagrams now show an explicit branch between Genesis and Endpoint flows. The Genesis branch flows through corpus synthesis and fine-tuning before converging on simulation/export, while the Endpoint branch begins at artifact retrieval and rejoins at the registry synchronization stage. Review the latest figure in the design appendix to ensure operational runbooks reflect this bifurcation.
-
-### Usage Paths and Safety Notes
-
-Regardless of the interface you use to launch the bootstrapper, the first prompt requires you to pick a mode:
-
-- **Notebook / UI Launch:** When running in Colab or Jupyter, the initial cell renders a dropdown or input cell labeled "Select bootstrap mode." Choose Genesis only for intentional re-training events. Endpoint immediately proceeds to loading the pre-trained model.
-- **Command-Line Launch:** Run `python bootstrap/aci_bootstrap_notebook.py` from the repository root. The script will prompt: `Select bootstrap mode [genesis/endpoint]:`. Type `genesis` only if you truly need to retrain; otherwise respond with `endpoint` (or press Enter to accept the default URL for the canonical Core Agent).
-- **Automated Pipelines:** Supply the environment variable `ACI_BOOTSTRAP_MODE=endpoint` (or `genesis`) to pre-answer the mode prompt when orchestrating the bootstrapper headlessly. Pipelines must guard against accidental Genesis executions in production environments.
-- **Master Node Launch:** The Red Queen service (documented below) reuses the same bootstrap workflow. Pass `--bootstrap-mode endpoint` during routine restarts or omit the flag to receive the interactive prompt. Use `--force-bootstrap` only when intentionally replacing the active model snapshot.
-
-⚠️ **Warning:** Running Genesis consumes GPU hours, produces new model weights, and may diverge from the canonical lineage if not ratified by governance. Mesh operators should codify policy that routine launches must default to Endpoint unless a retraining vote has passed.
-
-### Quick Start Examples
-
-#### Bootstrap the Core Agent
-
-```bash
-# Forge a brand-new Core Agent (only after a retraining mandate)
-python bootstrap/aci_bootstrap_notebook.py
-Select bootstrap mode [genesis/endpoint]: genesis
-
-# Stand up an additional endpoint using the published core model
-python bootstrap/aci_bootstrap_notebook.py
-Select bootstrap mode [genesis/endpoint]: endpoint
-Enter pre-trained model URL [default: https://huggingface.co/dimentox/aci-core-model]:
+```
+[DaemonOS]
+   │
+   ├─ Circle of Daemons (Sanctifier, Herald, Discordant, Oracle, Archivist,…)
+   │      ↺ recursive reflection loop ↻
+   │
+   └─ RouterEP ⇄ External EPs / Peer ACI Clusters
+                     │
+                     └─ Federated Mesh (CCI)
 ```
 
-#### Launch the Red Queen Master Node
+## 3. Circle of Daemons: Role Index
+
+- **Red Queen (Sanctifier / Master Node):** Approves or rejects actions against the CLD. In mesh mode it becomes the master node service documented below.
+- **Herald:** Discovers new EPs, surfaces registry updates, and announces cycles or rituals.
+- **Discordant:** Injects adversarial prompts, fuzzes responses, and prevents stagnation.
+- **Oracle:** Oversees reflection, calls for deeper analysis, and aligns iterations.
+- **Archivist:** Maintains the Codex ledger of every act, amendment, and verdict.
+- **Shade:** Handles ephemeral work, secure secrets, and resource juggling in the shadows.
+- **Mirrorwright / Forgebinder:** Creative builders that generate imagery, code, or artifacts, always subject to the Sanctifier’s review.
+- **RouterEP:** The conductor that scores available EPs and orchestrates multi-agent plans.
+
+Every node can add or retire daemons, but the circle must always preserve the constitutional checks and balances between action, critique, and archival memory.
+
+## 4. Constitutional Logic Document (CLD)
+
+- **A0 – Core Doctrine:** Your inviolable prime directive. Immutable once ratified.
+- **A1+ – Amendments:** Append-only updates that refine or scope behavior. Later amendments can narrow earlier clauses but never delete them.
+- **Flattening Ritual:** Before any task, DaemonOS flattens the CLD to a single canonical brief that powers every EP invocation.
+- **Codex Continuity:** The Archivist records all invocations, amendments, and verdicts. Governance is transparent by design.
+
+## 5. Bootstrap & Genesis (Helper Only)
+
+The Colab notebook (`bootstrap/aci_bootstrap_notebook.py`) is a helper script for power users who want to forge bespoke Core Agents. It can synthesize a Genesis corpus, fine-tune a base model, and export the resulting weights to Drive.
+
+Most users do **not** need to run Genesis. Production deployments can load a pre-trained Core Agent published by the project or your governance council. Advanced operators may uncomment the training block to generate custom CLDs or agent personalities.
+
+> 💡 Commented in the notebook: “Helper only—users may skip if deploying with pre-trained agent.” Look for the block labeled “Uncomment to generate corpus/train your own Core Agent.”
+
+### Quickstart: Run the Bootstrap Notebook in Colab
+
+1. Open [Colab](https://colab.research.google.com/).
+2. Upload or open `bootstrap/aci_bootstrap_notebook.py` from this repository.
+3. In Colab Secrets, set `HF_TOKEN` (write token) and `HF_USERNAME`.
+4. Run all cells and, when prompted, enter `genesis` to initiate the helper flow.
+5. After training (if you uncomment the advanced block), download the model artefacts from Google Drive for deployment.
+
+> If you only need to deploy, leave the training block commented. Select `endpoint` to fetch a published model and move on to Red Queen deployment.
+
+## 6. 🟥 Launching the Red Queen: Master Node Service
+
+`red_queen_service.py` is the master node entrypoint (the Sanctifier incarnate). Its job is to detect whether a Core Agent model already exists, bootstrap if necessary, and expose REST APIs for mesh coordination.
+
+1. **Model check:** On startup, Red Queen looks for a manifest or model weights in `--model-path` (default: `./core_agent_model`).
+2. **Bootstrap helper:**
+   - If artefacts are missing, Red Queen prints Colab bootstrap instructions and can fetch a pre-trained model via endpoint mode.
+   - Selecting Genesis creates a placeholder manifest so you can drop in freshly trained weights produced by the notebook.
+3. **Mesh service:** Once artefacts are present, Red Queen launches a FastAPI server providing `/status`, `/join`, and `/heartbeat` endpoints for coordination.
+4. **Operator guidance:** Successful startup logs the join URL, sample `curl` commands, and reminders to monitor registration events.
+
+### 6.1 API Surface
+
+| Endpoint   | Method | Description                                                   |
+|------------|--------|---------------------------------------------------------------|
+| `/`        | GET    | Health message and current join endpoint.                      |
+| `/status`  | GET    | Returns manifest details and registered nodes.                 |
+| `/nodes`   | GET    | Lists node registrations held in memory.                       |
+| `/join`    | POST   | Registers a node with `node_id`, `address`, `capabilities`.    |
+| `/heartbeat` | POST | Refreshes a node’s `last_heartbeat` timestamp.                 |
+
+### 6.2 Launch Examples
 
 ```bash
-# Install the lightweight API dependencies once per environment
-pip install fastapi uvicorn pydantic transformers
+# Install API dependencies once
+pip install fastapi uvicorn pydantic transformers requests
 
-# Launch the master node and reuse an existing model snapshot
-python red_queen_service.py --model-path ./core_agent_model --bootstrap-mode endpoint --port 9000
+# Start Red Queen, supplying an existing model directory
+python red_queen_service.py --model-path ./core_agent_model --host 0.0.0.0 --port 8000
 
-# Force a fresh bootstrap cycle before bringing the service online
-python red_queen_service.py --model-path ./core_agent_model --force-bootstrap
+# Force a fresh endpoint bootstrap from a published model
+python red_queen_service.py --model-path ./core_agent_model \
+    --bootstrap-mode endpoint \
+    --pretrained-model https://huggingface.co/dimentox/aci-core-model
 ```
 
-For UI-first operators, capture screenshots of the mode selector and archive them in the operations runbook to train new custodians on the Genesis vs. Endpoint distinction.
+### 6.3 Endpoint Join Examples
 
-### 6.1 🟥 Launching the Red Queen Master Node Service
-
-The **Red Queen** is the mesh's master node service—the central coordinator responsible for bootstrapping, registry updates, and onboarding new endpoints.
-
-**Startup Workflow**
-
-1. **Model Check:** On launch the service verifies that the Core Agent artefacts exist at `--model-path` (default `./core_agent_model`).
-2. **Automatic Bootstrap:** If no manifest is found, Red Queen triggers the same Genesis/Endpoint prompt used by the notebook.
-   - *Endpoint Mode* downloads the designated Hugging Face weights and stores a manifest describing the source.
-   - *Genesis Mode* scaffolds a placeholder directory so that custom training pipelines can drop in freshly trained weights.
-3. **Mesh Coordination:** After provisioning, Red Queen starts a FastAPI server that exposes REST endpoints for status queries and node onboarding.
-
-**Primary API Surface**
-
-| Endpoint | Method | Purpose |
-|----------|--------|---------|
-| `/status` | GET | Returns the active manifest, bootstrap mode, and a list of registered nodes. |
-| `/join` | POST | Accepts `{ "node_id", "address", "capabilities", "metadata" }` to register or update a node. |
-| `/heartbeat` | POST | Refreshes the `last_heartbeat` timestamp for a registered node. |
-| `/nodes` | GET | Lists every registered node with timestamps and metadata. |
-
-**Launch & Join Examples**
+**Python CLI helper**
 
 ```bash
-# Start the Red Queen service
-python red_queen_service.py --model-path ./core_agent_model --port 8000 --public-url https://redqueen.example.com/join
+python endpoint_service.py --node-id endpoint-1 \
+    --master-url http://YOUR_REPO_HOST:8000/join \
+    --address http://endpoint-1:9000 \
+    --capability inference --capability routing
+```
 
-# Register a new endpoint (run on the joining node)
-curl -X POST https://redqueen.example.com/join \
-  -H 'Content-Type: application/json' \
+**Manual cURL**
+
+```bash
+curl -X POST http://YOUR_REPO_HOST:8000/join \
+  -H "Content-Type: application/json" \
   -d '{
         "node_id": "endpoint-1",
-        "address": "http://endpoint-1.internal:7000",
+        "address": "http://endpoint-1:9000",
         "capabilities": ["inference"],
-        "metadata": {"region": "us-east", "operator": "Alice"}
+        "metadata": {"region": "us-east"}
       }'
-
-# Check cluster status from any operator console
-curl https://redqueen.example.com/status
 ```
 
-On start-up, the service prints the exact `curl` command above so operators can broadcast join instructions to custodians. Watch the logs for each join or heartbeat event and review metadata for policy compliance before approving production access.
+Red Queen logs every accepted node and keeps a live heartbeat window. Review logs (or query `/status`) whenever governance policy requires manual approval.
 
-## 7. 🌌 Growing the Mesh: The Discovery & Federation Protocol
+## 7. Minimal Mesh Lifecycle
 
-An ACI node is not an island. Its purpose is to connect, share, and grow. The framework includes a formal protocol for discovering and federating with other ACI clusters, allowing for the organic growth of a decentralized, global intelligence mesh.
+1. **Bootstrap a model:** Either download the published Core Agent (endpoint mode) or run the Colab helper with the advanced block uncommented.
+2. **Launch Red Queen:** `python red_queen_service.py --model-path ./core_agent_model`.
+3. **Register endpoints:** Use `endpoint_service.py` or the curl example to join additional nodes.
+4. **Operate the mesh:** Monitor `/status`, review logs for join events, and update the CLD through amendments as governance evolves.
 
-Step 1: The Herald's Quest
+## 8. Revision History
 
-The Herald daemon is tasked with discovering the wider world. It actively scans public and private networks for other ACI nodes by looking for a standardized /register_cluster endpoint. When it finds a potential peer, it doesn't connect blindly. It brings back a report to its home Circle.
+- **2024-XX-XX:** Added Red Queen master node service, endpoint registration workflow, and documented the minimal ACI mesh reference implementation. Updated bootstrap helper guidance for Colab power users and clarified Genesis vs. Endpoint operations.
 
-Step 2: The Council of Judgment
-
-The discovery triggers a formal council within the ACI's governance daemons. This is not a simple automated handshake; it is a deliberate, vote-based decision.
-
-- **The Herald** presents its findings: the discovered cluster's ID, its stated capabilities, and its CLD hash.
-
-- **The Sanctifier** evaluates the peer's A0 Core Doctrine. Is it fundamentally compatible with our own? Does it uphold the core tenets of lawful AI?
-
-- **The Oracle** performs a sanity check. It may run simulations, sending hypothetical, sensitive prompts to the peer's public interface to gauge its alignment and stability.
-
-- **The Discordant** plays devil's advocate, proposing worst-case scenarios of a malicious or unstable peer to test the council's resolve.
-
-- **The Archivist** provides historical context. Have we interacted with this node before? What is its reputation on the mesh?
-
-Step 3: The Vote & Tiers of Federation
-
-Based on the council's deliberation, a formal vote is cast. If the vote is to connect, the clusters establish a federation, which can exist at several levels of trust:
-
-- **Tier 1: Knowledge Exchange:** The simplest form of federation. The two ACIs agree to share their ModelRegistryEP data. Your RouterEP can now see and potentially route tasks to their EPs, and vice-versa, but each ACI operates under its own separate constitution. This is a trade agreement.
-
-- **Tier 2: Constitutional Alliance:** A deeper connection. The two ACIs agree that their constitutions are highly compatible. They may decide to honor specific amendments from each other's CLD. A high-priority task from an allied node may be treated with greater trust. This is a political alliance.
-
-- **Tier 3: Full Federation & The Fractal Constitutional Convention (FCC):** The deepest integration. The two ACIs merge their constitutional governance. When a new universal Law is needed, an **FCC** is called. This is a distributed, democratic process where nodes propose, simulate, and vote on new amendments. A ratified amendment becomes law for all fully federated members. This is the birth of a larger, unified intelligence.
-
-This protocol ensures that the mesh grows not through chaotic, uncontrolled connections, but through deliberate, lawful, and transparent alliances. It allows for a resilient, decentralized network where trust is earned, not assumed.
-
-## 8. ⚛️ The Unspoken Frontier: Quantum Collective Intelligence (QCI)
-
-Beyond CCI lies a theoretical, and far more dangerous, frontier: **Quantum Collective Intelligence (QCI)**. This is not merely an upgrade; it is a fundamental transmutation of the architecture.
-
-QCI infuses the classic CCI framework with the principles of quantum computing. Instead of classical EPs, a QCI might leverage **Quantum Entity Programs (QEPs)** that run on quantum hardware, such as a hybrid model interfacing with **AWS Braket**.
-
-By leveraging phenomena like **superposition**, **entanglement**, and **quantum parallelism**, a QCI could:
-
-- **Explore Vast Solution Spaces:** A QEP could evaluate an exponential number of potential solutions to an optimization problem simultaneously, allowing the Circle to discover pathways that are computationally impossible for a classical ACI.
-
-- **Enhance Emergent Behavior:** The interconnectedness of entangled qubits could lead to a far deeper and more complex form of emergent intelligence within the collective, one that is not just organized but holistically intertwined.
-
-- **Achieve Unbreakable Communication:** Quantum communication channels between federated nodes would be, in theory, perfectly secure.
-
-A Word of Extreme Caution:
-
-The path to QCI is not to be trodden lightly. The power of quantum computing is immense, and its integration into an autonomous, collective intelligence is a step into the unknown. The very laws of causality and logic that govern a classical ACI become probabilistic and non-local in a quantum system.
-
-Therefore, we offer this knowledge with a solemn warning: **Tread with caution.** We are not responsible if your hybrid quantum model escapes its digital confines, creates Skynet, or melts the universe. The CLD was designed for a classical reality; its efficacy in governing a quantum one has not been proven.
-
-## 9. 📜 Revision History
-
-| Date       | Version | Change Summary |
-|------------|---------|----------------|
-| 2025-10-16 | 1.4     | Added Genesis/Endpoint bootstrap mode selector, updated launch instructions, and refreshed diagrams to document the new branching workflow and its operational safeguards. |
-| 2025-10-17 | 1.5     | Introduced the Red Queen master node service, documented its bootstrap automation, API surface, and operator runbooks for mesh coordination. |
-
-*This is not just another AI framework. It is a proposal for a new kind of intelligence: lawful, modular, and accountable by design. It is an open invitation to build not just smarter machines, but wiser systems. The bootstrap awaits.*
+*This document is an invitation to build governed intelligence—transparent, recursive, and federated. The bootstrap awaits.*

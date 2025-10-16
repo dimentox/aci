@@ -1,7 +1,7 @@
 """Minimal endpoint registration helper for the ACI mesh.
 
 This script is a convenience wrapper that registers a node with the
-Red Queen master node service and optionally sends a heartbeat.
+MCP orchestrator and optionally sends a heartbeat.
 """
 
 from __future__ import annotations
@@ -25,13 +25,13 @@ def parse_metadata(pairs: List[str]) -> Dict[str, str]:
 
 def build_argument_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
-        description="Register this endpoint with a Red Queen master node.",
+        description="Register this endpoint with the MCP orchestrator.",
     )
     parser.add_argument("--node-id", required=True, help="Unique identifier for this endpoint")
     parser.add_argument(
         "--master-url",
         required=True,
-        help="Full join URL exposed by the Red Queen service (e.g. http://host:8000/join)",
+        help="Full join URL exposed by the MCP service (e.g. http://host:8000/join)",
     )
     parser.add_argument("--address", help="Optional callback address for this endpoint")
     parser.add_argument(

@@ -163,6 +163,14 @@ if GENESIS_MODE:
     except (ImportError, ValueError) as e:
         print(f"Setup Error: {e}. Please ensure you are in a Colab environment and have set up your secrets.")
 
+
+def install_packages(packages):
+    """Install required pip packages for the bootstrap workflow."""
+
+    if not packages:
+        return
+
+    print("Installing necessary libraries via pip...")
     try:
         drive.mount('/content/drive')
         print("Google Drive mounted successfully.")

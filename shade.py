@@ -1,4 +1,7 @@
-"""Shade daemon manages ephemeral resources and secure operations."""
+"""Shade daemon manages ephemeral resources and secure operations.
+
+See From ACI to CCI A Fractal Offloading Architecture for Distributed Intelligence.md, Section 7.
+"""
 from __future__ import annotations
 
 import logging

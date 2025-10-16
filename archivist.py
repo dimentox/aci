@@ -1,4 +1,7 @@
-"""Archivist daemon maintains a ledger of mesh actions and amendments."""
+"""Ledger and audit daemon for the Pantheon.
+
+See Artificial_Collective_Intelligence__Beyond_AGI-published.pdf, Sections 2.2 and 3.4.
+"""
 from __future__ import annotations
 
 import logging

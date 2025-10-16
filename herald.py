@@ -1,4 +1,7 @@
-"""Herald daemon responsible for network discovery and onboarding (White Rabbit)."""
+"""Herald daemon responsible for discovery and onboarding (White Rabbit).
+
+See From ACI to CCI A Fractal Offloading Architecture for Distributed Intelligence.md, Section 7.
+"""
 from __future__ import annotations
 
 import logging

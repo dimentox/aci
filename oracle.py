@@ -1,4 +1,7 @@
-"""Oracle daemon performs sanity checks and meta-governance deliberations."""
+"""Oracle daemon performs sanity checks and meta-governance deliberations.
+
+See Artificial_Collective_Intelligence__Beyond_AGI-published.pdf, Section 2.2.
+"""
 from __future__ import annotations
 
 import logging

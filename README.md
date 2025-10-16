@@ -1,8 +1,18 @@
 # Artificial Collective Intelligence (ACI) & Collective Compute Intelligence (CCI)
 ## The Canonical Lawful, Modular, Federated AI Protocol
 
-**By Brandon “Dimentox” Husbands**  
+**By Brandon “Dimentox” Husbands**
 https://www.witchbornsystems.org | https://github.com/dimentox/aci
+
+## Canonical Reference
+
+All architectural, naming, and implementation decisions must align with the following source documents (located in `/docs`):
+
+- Artificial_Collective_Intelligence__Beyond_AGI-published.pdf
+- THE CCI TESTAMENT1.pdf
+- From ACI to CCI A Fractal Offloading Architecture for Distributed Intelligence.md
+
+Any feature or extension diverging from the reference must be clearly marked as “evolutionary” and cite the relevant section/line in the source doc.
 
 ---
 
@@ -17,44 +27,57 @@ The 2024 refresh introduces the **Master Control Program (MCP)** orchestrator an
 
 ## 🚦 Quick Start
 
-1. **Clone or Fork**
+### Quickstart: Minimal Reference ACI
+
+1. **Install dependencies**
 
    ```bash
    git clone https://github.com/dimentox/aci
    cd aci
-   pip install -r bootstrap/requirements.txt  # install API + FastAPI deps
+   pip install -r bootstrap/requirements.txt  # API + FastAPI deps
    ```
 
-2. **Sync the Constitutional Logic Document (CLD)**
+2. **Edit `mcp_config.json` (Pantheon daemons enabled)**
 
-   Download/merge `core_cld.json` (do **not** modify directly—see Amendment Policy below).
+   Confirm each Pantheon role is enabled by default and adjust configuration blocks as needed for your deployment.
 
-3. **Configure the Circle of Daemons**
-
-   Edit `mcp_config.json` to enable/disable daemons, tweak chaos levels, or add new Pantheon roles.
-   Every entry references a Python module and class that MCP imports dynamically.
-
-4. **Launch the Master Control Program**
+3. **Start MCP**
 
    ```bash
    python mcp.py --config mcp_config.json --model-path ./core_agent_model
    ```
 
-   The CLI bootstraps Core Agent artefacts if missing, loads all configured components, and starts the FastAPI service (default: `http://0.0.0.0:8000`).
+4. **All daemons autoloaded; no mesh/federation/registration logic by default**
 
-5. **Discover and Register Endpoints**
+   The CLI bootstraps Core Agent artefacts if missing, loads every Pantheon daemon, and serves the FastAPI control plane with only the canonical `/` and `/status` endpoints.
 
-   Use Herald helpers or the CLI below to join worker nodes:
+Revision: Removed legacy registration/join APIs from the default quickstart; see Evolutionary Extensions for mesh/federation options.
 
-   ```bash
-   python endpoint_service.py --node-id endpoint-1 \
-       --master-url http://localhost:8000/join \
-       --address http://endpoint-1:9000 \
-       --capability inference --capability routing \
-       --heartbeat
-   ```
+## Evolutionary Extensions
 
-   `GET /status` returns the active Circle of Daemons and registered endpoints.
+> **Note:** The following mesh federation/registration logic is not part of the minimal ACI reference. It is provided for advanced or federated mesh use only. Reference: From ACI to CCI, Section: Fractal Offloading.
+
+### Evolutionary Extension: Mesh Federation & Endpoint Registration
+
+- Enable federation by setting `"features.mesh_registration.enabled": true` in `mcp_config.json`. The config includes the note `"The following are evolutionary/experimental mesh features. See: From ACI to CCI..."` to highlight its non-canonical status.
+- Restart MCP after changing the configuration. When enabled, `/join`, `/nodes`, and `/heartbeat` routes are exposed and logged as evolutionary extensions.
+- Optionally run the helper CLI:
+
+  ```bash
+  python endpoint_service.py --node-id endpoint-1 \
+      --master-url http://localhost:8000/join \
+      --address http://endpoint-1:9000 \
+      --capability inference --capability routing \
+      --heartbeat
+  ```
+
+  The helper is marked with the same evolutionary reference and should only be used when the mesh extension is activated.
+
+### Witchborn Certification & Registry (Evolutionary)
+
+1. Submit a **Pull Request** to add your node/EP to `registry/registered_eps.json`.
+2. Include: project/node name, maintainer, amendments, endpoint (if meshable).
+3. Only registered/certified nodes are discoverable/mesh-authorized when the evolutionary federation layer is enabled.
 
 ---
 
@@ -102,14 +125,6 @@ All extensions must credit https://github.com/dimentox/aci.
 > The authors are not responsible if your model escapes, creates Skynet, or melts the universe.
 > CLD governance is unproven for true quantum endpoints.
 > Proceed at your own risk.
-
----
-
-## 🌐 Registration & Witchborn Certification
-
-1. Submit a **Pull Request** to add your node/EP to `registry/registered_eps.json`.
-2. Include: project/node name, maintainer, amendments, endpoint (if meshable).
-3. Only registered/certified nodes are discoverable/mesh-authorized.
 
 ---
 

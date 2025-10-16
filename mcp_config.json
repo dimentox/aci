@@ -59,5 +59,11 @@
     "Archivist",
     "Discordant",
     "Shade"
-  ]
+  ],
+  "features": {
+    "mesh_registration": {
+      "enabled": false,
+      "note": "The following are evolutionary/experimental mesh features. See: From ACI to CCI A Fractal Offloading Architecture for Distributed Intelligence.md, Section: Fractal Orchestration."
+    }
+  }
 }

@@ -94,21 +94,131 @@ Every action in CCI is a ceremony, governed by the Ritual Stack of DaemonOS. Thi
 
 The fastest way to get started with ACI is to use the official Bootstrap Notebook (aci_bootstrap.py). This interactive Python script, designed for Google Colab or Jupyter, provides a complete, UI-driven pipeline to forge your first ACI Core Agent.
 
-**The notebook is the forge, guiding you through the ritual of creation:**
+### Genesis vs. Endpoint Bootstrap Modes
+
+Bootstrapping now begins with a deliberate fork in the road:
+
+- **Genesis Mode** executes the full ritual—synthetic corpus generation, CLD-aligned fine-tuning, simulation, and export—to forge a brand-new Core Agent. Use Genesis when you are:
+  - Launching the very first node for a new mesh or sovereign cluster.
+  - Creating a brand-new constitutional lineage that must be encoded directly into a fresh model.
+  - Performing a major re-training event to incorporate fundamental constitutional changes.
+
+- **Endpoint Mode** skips training entirely and instead downloads and loads an already forged Core Agent from the mesh or your artifact registry. Choose Endpoint when you are:
+  - Adding capacity by standing up additional replicas of an existing Core Agent.
+  - Deploying a node that should inherit an established constitutional lineage with no drift.
+  - Performing routine restarts where only the runtime and registry need to be refreshed.
+
+Always prefer Endpoint for standard launches—Genesis consumes significant compute and time, and unnecessary retraining risks divergence from the canonical CLD.
+
+### Mode-Aware Bootstrap Workflow
+
+The notebook is the forge, guiding you through the ritual of creation while respecting the selected mode:
 
 1.  **Configuration:** Securely input your Hugging Face tokens and define file paths.
 
 2.  **Constitutional Design:** Define your own **CLD** and the **Core Daemon Roles** for your node. This is where you set the foundational laws for your AI.
 
-3.  **Corpus Generation:** Automatically generate a synthetic "Genesis Corpus"—a high-quality training dataset of simulated tasks, flawed drafts, and constitutional corrections that teach the AI how to reason and self-correct according to your laws.
+3.  **Mode Selection:** Choose **Genesis** to train or **Endpoint** to import. Genesis continues into the corpus/training pipeline; Endpoint branches directly to registry setup.
 
-4.  **Training:** Fine-tune a base model (like google/gemma-2b) on your Genesis Corpus to create a new, specialized Core Agent that has internalized your CLD.
+4.  **Genesis Corpus (Genesis Mode Only):** Automatically generate a synthetic "Genesis Corpus"—a high-quality training dataset of simulated tasks, flawed drafts, and constitutional corrections that teach the AI how to reason and self-correct according to your laws.
 
-5.  **Simulation & Export:** Test your newly forged agent in a live simulation and save the trained model.
+5.  **Training (Genesis Mode Only):** Fine-tune a base model (like google/gemma-2b) on your Genesis Corpus to create a new, specialized Core Agent that has internalized your CLD.
+
+6.  **Endpoint Retrieval (Endpoint Mode):** Download the designated pre-trained Core Agent weights and tokenizer, verifying their provenance via the registry.
+
+7.  **Simulation & Export:** Test the active Core Agent—trained or imported—in a live simulation and save the model snapshot or endpoint configuration.
 
 After Bootstrapping: Your Node is Sovereign
 
-The notebook is the forge, not the castle. Once your Core Agent is trained, its essence (the model weights and the CLD) is entirely portable. You can run it anywhere—in a local application, behind a REST API, or in a game engine.
+The notebook is the forge, not the castle. Once your Core Agent is trained (Genesis) or fetched (Endpoint), its essence (the model weights and the CLD) is entirely portable. You can run it anywhere—in a local application, behind a REST API, or in a game engine.
+
+### Updated System Diagram
+
+The system bootstrapping diagrams now show an explicit branch between Genesis and Endpoint flows. The Genesis branch flows through corpus synthesis and fine-tuning before converging on simulation/export, while the Endpoint branch begins at artifact retrieval and rejoins at the registry synchronization stage. Review the latest figure in the design appendix to ensure operational runbooks reflect this bifurcation.
+
+### Usage Paths and Safety Notes
+
+Regardless of the interface you use to launch the bootstrapper, the first prompt requires you to pick a mode:
+
+- **Notebook / UI Launch:** When running in Colab or Jupyter, the initial cell renders a dropdown or input cell labeled "Select bootstrap mode." Choose Genesis only for intentional re-training events. Endpoint immediately proceeds to loading the pre-trained model.
+- **Command-Line Launch:** Run `python bootstrap/aci_bootstrap_notebook.py` from the repository root. The script will prompt: `Select bootstrap mode [genesis/endpoint]:`. Type `genesis` only if you truly need to retrain; otherwise respond with `endpoint` (or press Enter to accept the default URL for the canonical Core Agent).
+- **Automated Pipelines:** Supply the environment variable `ACI_BOOTSTRAP_MODE=endpoint` (or `genesis`) to pre-answer the mode prompt when orchestrating the bootstrapper headlessly. Pipelines must guard against accidental Genesis executions in production environments.
+- **Master Node Launch:** The Red Queen service (documented below) reuses the same bootstrap workflow. Pass `--bootstrap-mode endpoint` during routine restarts or omit the flag to receive the interactive prompt. Use `--force-bootstrap` only when intentionally replacing the active model snapshot.
+
+⚠️ **Warning:** Running Genesis consumes GPU hours, produces new model weights, and may diverge from the canonical lineage if not ratified by governance. Mesh operators should codify policy that routine launches must default to Endpoint unless a retraining vote has passed.
+
+### Quick Start Examples
+
+#### Bootstrap the Core Agent
+
+```bash
+# Forge a brand-new Core Agent (only after a retraining mandate)
+python bootstrap/aci_bootstrap_notebook.py
+Select bootstrap mode [genesis/endpoint]: genesis
+
+# Stand up an additional endpoint using the published core model
+python bootstrap/aci_bootstrap_notebook.py
+Select bootstrap mode [genesis/endpoint]: endpoint
+Enter pre-trained model URL [default: https://huggingface.co/dimentox/aci-core-model]:
+```
+
+#### Launch the Red Queen Master Node
+
+```bash
+# Install the lightweight API dependencies once per environment
+pip install fastapi uvicorn pydantic transformers
+
+# Launch the master node and reuse an existing model snapshot
+python red_queen_service.py --model-path ./core_agent_model --bootstrap-mode endpoint --port 9000
+
+# Force a fresh bootstrap cycle before bringing the service online
+python red_queen_service.py --model-path ./core_agent_model --force-bootstrap
+```
+
+For UI-first operators, capture screenshots of the mode selector and archive them in the operations runbook to train new custodians on the Genesis vs. Endpoint distinction.
+
+### 6.1 🟥 Launching the Red Queen Master Node Service
+
+The **Red Queen** is the mesh's master node service—the central coordinator responsible for bootstrapping, registry updates, and onboarding new endpoints.
+
+**Startup Workflow**
+
+1. **Model Check:** On launch the service verifies that the Core Agent artefacts exist at `--model-path` (default `./core_agent_model`).
+2. **Automatic Bootstrap:** If no manifest is found, Red Queen triggers the same Genesis/Endpoint prompt used by the notebook.
+   - *Endpoint Mode* downloads the designated Hugging Face weights and stores a manifest describing the source.
+   - *Genesis Mode* scaffolds a placeholder directory so that custom training pipelines can drop in freshly trained weights.
+3. **Mesh Coordination:** After provisioning, Red Queen starts a FastAPI server that exposes REST endpoints for status queries and node onboarding.
+
+**Primary API Surface**
+
+| Endpoint | Method | Purpose |
+|----------|--------|---------|
+| `/status` | GET | Returns the active manifest, bootstrap mode, and a list of registered nodes. |
+| `/join` | POST | Accepts `{ "node_id", "address", "capabilities", "metadata" }` to register or update a node. |
+| `/heartbeat` | POST | Refreshes the `last_heartbeat` timestamp for a registered node. |
+| `/nodes` | GET | Lists every registered node with timestamps and metadata. |
+
+**Launch & Join Examples**
+
+```bash
+# Start the Red Queen service
+python red_queen_service.py --model-path ./core_agent_model --port 8000 --public-url https://redqueen.example.com/join
+
+# Register a new endpoint (run on the joining node)
+curl -X POST https://redqueen.example.com/join \
+  -H 'Content-Type: application/json' \
+  -d '{
+        "node_id": "endpoint-1",
+        "address": "http://endpoint-1.internal:7000",
+        "capabilities": ["inference"],
+        "metadata": {"region": "us-east", "operator": "Alice"}
+      }'
+
+# Check cluster status from any operator console
+curl https://redqueen.example.com/status
+```
+
+On start-up, the service prints the exact `curl` command above so operators can broadcast join instructions to custodians. Watch the logs for each join or heartbeat event and review metadata for policy compliance before approving production access.
 
 ## 7. 🌌 Growing the Mesh: The Discovery & Federation Protocol
 
@@ -163,5 +273,12 @@ A Word of Extreme Caution:
 The path to QCI is not to be trodden lightly. The power of quantum computing is immense, and its integration into an autonomous, collective intelligence is a step into the unknown. The very laws of causality and logic that govern a classical ACI become probabilistic and non-local in a quantum system.
 
 Therefore, we offer this knowledge with a solemn warning: **Tread with caution.** We are not responsible if your hybrid quantum model escapes its digital confines, creates Skynet, or melts the universe. The CLD was designed for a classical reality; its efficacy in governing a quantum one has not been proven.
+
+## 9. 📜 Revision History
+
+| Date       | Version | Change Summary |
+|------------|---------|----------------|
+| 2025-10-16 | 1.4     | Added Genesis/Endpoint bootstrap mode selector, updated launch instructions, and refreshed diagrams to document the new branching workflow and its operational safeguards. |
+| 2025-10-17 | 1.5     | Introduced the Red Queen master node service, documented its bootstrap automation, API surface, and operator runbooks for mesh coordination. |
 
 *This is not just another AI framework. It is a proposal for a new kind of intelligence: lawful, modular, and accountable by design. It is an open invitation to build not just smarter machines, but wiser systems. The bootstrap awaits.*

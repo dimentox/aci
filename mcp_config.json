@@ -1,0 +1,63 @@
+{
+  "components": [
+    {
+      "name": "Herald",
+      "module": "herald",
+      "class": "Herald",
+      "enabled": true,
+      "config": {
+        "discovery_interval": 30
+      }
+    },
+    {
+      "name": "Sanctifier",
+      "module": "sanctifier",
+      "class": "Sanctifier",
+      "enabled": true,
+      "config": {
+        "allowed_actions": ["status", "register", "audit"]
+      }
+    },
+    {
+      "name": "Oracle",
+      "module": "oracle",
+      "class": "Oracle",
+      "enabled": true,
+      "config": {
+        "reflection_depth": 2
+      }
+    },
+    {
+      "name": "Archivist",
+      "module": "archivist",
+      "class": "Archivist",
+      "enabled": true
+    },
+    {
+      "name": "Discordant",
+      "module": "discordant",
+      "class": "Discordant",
+      "enabled": true,
+      "config": {
+        "chaos_level": 0.15
+      }
+    },
+    {
+      "name": "Shade",
+      "module": "shade",
+      "class": "Shade",
+      "enabled": true,
+      "config": {
+        "token_bytes": 8
+      }
+    }
+  ],
+  "workflow": [
+    "Herald",
+    "Sanctifier",
+    "Oracle",
+    "Archivist",
+    "Discordant",
+    "Shade"
+  ]
+}

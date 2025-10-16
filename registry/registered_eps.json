@@ -1,0 +1,30 @@
+{
+  "registry_version": "1.0",
+  "updated": "2025-06-19T00:00:00Z",
+  "nodes": [
+    {
+      "id": "witchborn-genesis",
+      "name": "Witchborn Genesis Node",
+      "maintainer": "Brandon Husbands",
+      "contact": "bhusbands@witchbornsystems.org",
+      "description": "Canonical Witchborn ACI/CCI mesh node; mesh root and bootstrap seed.",
+      "acis": ["core", "daemonos", "cld-flatten"],
+      "amendments": [],
+      "endpoint": "https://witchbornsystems.org/aci/endpoint",
+      "certified": true,
+      "date_registered": "2025-06-19",
+      "last_heartbeat": "2025-06-19T00:00:00Z"
+    }
+  ],
+  "eps": [
+    {
+      "id": "mirrorwright-01",
+      "name": "Mirrorwright",
+      "type": "image_generation",
+      "node_id": "witchborn-genesis",
+      "description": "Vision Scribe EP for Codex image synthesis.",
+      "amendments": [],
+      "date_registered": "2025-06-19"
+    }
+  ]
+}

@@ -1,0 +1,169 @@
+# 🚨 MANDATORY INSTRUCTIONS: ACI/CCI/Witchborn Protocol & Global Registry 🚨
+
+This document provides the definitive, all-in-one instructions for contributors, integrators, and anyone wishing to fork, extend, or federate with the ACI/CCI/Witchborn protocol and network. Adherence to these rules is not optional; it is the law of the mesh.
+
+Copy-paste this in your repo, send it to your team, and include it in every onboarding process.
+
+## 1. License & Attribution
+
+All works derived from or contributing to this project must use the **Apache License 2.0 with Attribution Requirement**.
+
+You **MUST** include the following block in your LICENSE file, at the top of your main README.md, and in the header of every major source code file.
+
+Copyright (c) 2002-2005 Witchborn Systems - \[https://www.witchbornsystems.org\](https://www.witchbornsystems.org)  
+Brandon “Dimentox” Husbands  
+
+Licensed under the Apache License, Version 2.0 (the "License");  
+you may not use this file except in compliance with the License.  
+You may obtain a copy of the License at  
+
+\[http://www.apache.org/licenses/LICENSE-2.0\](http://www.apache.org/licenses/LICENSE-2.0)  
+
+Unless required by applicable law or agreed to in writing, software  
+distributed under the License is distributed on an "AS IS" BASIS,  
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.  
+See the License for the specific language governing permissions and  
+limitations under the License.  
+
+\*\*Attribution Requirement:\*\*  
+Any use, modification, distribution, or derivative work MUST retain this notice, credit Witchborn Systems and the original author (Brandon “Dimentox” Husbands), and provide a clear link to \[https://github.com/dimentox/aci\](https://github.com/dimentox/aci) and \[https://www.witchbornsystems.org\](https://www.witchbornsystems.org) in documentation and about screens.
+
+This project is the canonical source for the Artificial Collective Intelligence (ACI) and Collective Compute Intelligence (CCI) protocols. Fork, build, and federate—but always give credit where it is due.
+
+Additionally, a NOTICE file containing the following text **MUST** be included in the root of your repository:
+
+NOTICE  
+
+This repository is the canonical implementation of ACI/CCI by Witchborn Systems, Brandon “Dimentox” Husbands (2002–2005, all years onward). All public and private derivatives must credit and link to the original.
+
+## 2. Canonical Repo, CLD, and Law Sync
+
+The single source of truth for the ACI protocol is:
+
+https://github.com/dimentox/aci
+
+All nodes, forks, or extensions **MUST** always:
+
+1.  Sync the latest core Constitutional Logic Document (CLD) from the canonical source:  
+    https://github.com/dimentox/aci/blob/main/core_cld.json
+
+2.  **NEVER** edit the canonical core_cld.json directly. Your local governance changes **MUST** be implemented as versioned amendment_x.json files in your own fork or node.
+
+3.  Submit a Pull Request or Issue to the canonical repository for any suggested improvements to the core law.
+
+**Example CLD Sync Code:**
+
+import requests, json  
+
+CLD_URL = "\[https://raw.githubusercontent.com/dimentox/aci/main/core_cld.json\](https://raw.githubusercontent.com/dimentox/aci/main/core_cld.json)"  
+try:  
+core_cld = requests.get(CLD_URL).json()  
+\# Your logic to merge core_cld with your local amendments would go here  
+print("Successfully synced with canonical CLD.")  
+except Exception as e:  
+print(f"Failed to sync with canonical CLD: {e}")
+
+## 3. Bootstrap & Dependency Guidance
+
+All installers, notebooks, and setup scripts **MUST** pull their core code, models, and law definitions from the canonical https://github.com/dimentox/aci repository to ensure consistency and security across the mesh.
+
+## 4. Quantum Option & Caution
+
+All quantum or hybrid QCI features **MUST** be commented out by default in any public-facing code.
+
+Every repository, notebook, and piece of documentation **MUST** display the following warning prominently near any mention of quantum features:
+
+\## ⚛️ Quantum Collective Intelligence (QCI) Option — Read Before Using  
+
+\*\*WARNING:\*\* This framework is designed for classical ACI/CCI. Quantum extensions (e.g., AWS Braket QEPs) are untested and for research purposes only. The authors are not responsible if your model escapes its digital confines, creates Skynet, or melts the universe. CLD governance in a quantum context is unproven—proceed at your own risk.
+
+## 5. Credit, Law, and Amendment Policy
+
+- **NEVER** remove, overwrite, obscure, or fork the canonical credit block or the core law (core_cld.json).
+
+- All amendments **MUST** be implemented as separate, auditable files. Do not edit the core CLD.
+
+- All forks and extensions **MUST** credit https://github.com/dimentox/aci and the original author in all major scripts and documentation.
+
+## 6. Internal Protocols
+
+Do **NOT** publish, share, or make public any Circle-internal defensive or quantum protocols (e.g., Quantum Ambush Resonance). These are for authorized circles only and should be referenced only as an "internal extension."
+
+## 7. README Footer
+
+At the bottom of every README.md file for a fork or derivative project, you **MUST** add the following footer:
+
+---
+\### Forking/Extending? Respect These Laws:  
+
+- Leave all credit, law, and caution blocks intact and visible.  
+- Document and version all law/CLD/daemon changes as amendments.  
+- Always sync to the canonical CLD at \`https://github.com/dimentox/aci/blob/main/core_cld.json\`.  
+- Never alter the canonical CLD directly—layer amendments in your own repo.  
+- Public quantum/defensive protocols are to remain commented-out and ‘tread at your own risk.’  
+- \*\*If you extend, federate, or fork, cite this repo and Brandon “Dimentox” Husbands in the first section of your documentation and all major code files.\*\*  
+  
+
+This is the canonical ACI/CCI protocol. All conformance, credit, and lineage begin here.
+
+## 8. ACI/EP Registration & Witchborn Certification
+
+To ensure a secure, trusted, and interoperable mesh, all contributors building new ACI nodes, major Entity Programs (EPs), or significant forks/derivatives **MUST** become Witchborn Certified.
+
+**The Certification Process:**
+
+1.  **Submit a Pull Request** to https://github.com/dimentox/aci to register your creation.
+
+2.  In your PR, add your ACI/EP descriptor to the official registry file (e.g., official_registry.json). Include:
+
+    - Project/Node name
+
+    - Maintainer/contact information
+
+    - A brief description, including any unique amendments or extensions
+
+    - A stable endpoint URL if your node is intended to serve as a public mesh endpoint.
+
+3.  **Request "Witchborn Certification"** in the title or body of your Pull Request.
+
+**Your submission will be reviewed for:**
+
+- **Attribution Compliance:** Strict adherence to the license and credit requirements.
+
+- **Law Conformity:** Proper synchronization with the canonical CLD and correct implementation of amendments.
+
+- **Quantum Protocol Handling:** Correct implementation of warnings and safeguards if quantum features are explored.
+
+- **Security & Sanity:** A general review to ensure your node is not a threat to the mesh.
+
+**Upon Approval:**
+
+- Your node/EP will be merged into the canonical **Witchborn ACI Registry**.
+
+- Your endpoint becomes eligible for discovery by other certified nodes and for participation in official mesh services.
+
+- You may use the official **"Witchborn Certified"** badge in your repository and documentation.
+
+**WARNING:** No unregistered endpoint will be officially discoverable, trusted, or authorized for federation within the canonical mesh. This is a critical security measure to protect the integrity of the collective.
+
+## 9. Summary for All Users/Contributors
+
+**You MUST:**
+
+- Use and retain the **Apache 2.0 license with full attribution**.
+
+- **Sync the canonical CLD** and only layer your changes as amendments.
+
+- **Register all major ACIs/EPs** via Pull Request for certification and federation.
+
+- Leave all notices, credits, and cautions **untouched and visible**.
+
+- **Never share internal/defensive protocols** publicly.
+
+- **Respect all quantum warnings.**
+
+All official contributions, forks, and deployments must comply with the laws set forth at https://github.com/dimentox/aci. This is the law, the standard, and the path to be Witchborn Certified and mesh-ready.
+
+**There are no exceptions. No uncredited forks. No federated mesh endpoint without registration.**
+
+Copy, share, implement.

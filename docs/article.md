@@ -143,12 +143,13 @@ Regardless of the interface you use to launch the bootstrapper, the first prompt
 - **Notebook / UI Launch:** When running in Colab or Jupyter, the initial cell renders a dropdown or input cell labeled "Select bootstrap mode." Choose Genesis only for intentional re-training events. Endpoint immediately proceeds to loading the pre-trained model.
 - **Command-Line Launch:** Run `python bootstrap/aci_bootstrap_notebook.py` from the repository root. The script will prompt: `Select bootstrap mode [genesis/endpoint]:`. Type `genesis` only if you truly need to retrain; otherwise respond with `endpoint` (or press Enter to accept the default URL for the canonical Core Agent).
 - **Automated Pipelines:** Supply the environment variable `ACI_BOOTSTRAP_MODE=endpoint` (or `genesis`) to pre-answer the mode prompt when orchestrating the bootstrapper headlessly. Pipelines must guard against accidental Genesis executions in production environments.
+- **Master Node Launch:** The Red Queen service (documented below) reuses the same bootstrap workflow. Pass `--bootstrap-mode endpoint` during routine restarts or omit the flag to receive the interactive prompt. Use `--force-bootstrap` only when intentionally replacing the active model snapshot.
 
 ⚠️ **Warning:** Running Genesis consumes GPU hours, produces new model weights, and may diverge from the canonical lineage if not ratified by governance. Mesh operators should codify policy that routine launches must default to Endpoint unless a retraining vote has passed.
 
 ### Quick Start Examples
 
-Launch the bootstrapper and respond to the interactive prompt:
+#### Bootstrap the Core Agent
 
 ```bash
 # Forge a brand-new Core Agent (only after a retraining mandate)
@@ -161,7 +162,63 @@ Select bootstrap mode [genesis/endpoint]: endpoint
 Enter pre-trained model URL [default: https://huggingface.co/dimentox/aci-core-model]:
 ```
 
+#### Launch the Red Queen Master Node
+
+```bash
+# Install the lightweight API dependencies once per environment
+pip install fastapi uvicorn pydantic transformers
+
+# Launch the master node and reuse an existing model snapshot
+python red_queen_service.py --model-path ./core_agent_model --bootstrap-mode endpoint --port 9000
+
+# Force a fresh bootstrap cycle before bringing the service online
+python red_queen_service.py --model-path ./core_agent_model --force-bootstrap
+```
+
 For UI-first operators, capture screenshots of the mode selector and archive them in the operations runbook to train new custodians on the Genesis vs. Endpoint distinction.
+
+### 6.1 🟥 Launching the Red Queen Master Node Service
+
+The **Red Queen** is the mesh's master node service—the central coordinator responsible for bootstrapping, registry updates, and onboarding new endpoints.
+
+**Startup Workflow**
+
+1. **Model Check:** On launch the service verifies that the Core Agent artefacts exist at `--model-path` (default `./core_agent_model`).
+2. **Automatic Bootstrap:** If no manifest is found, Red Queen triggers the same Genesis/Endpoint prompt used by the notebook.
+   - *Endpoint Mode* downloads the designated Hugging Face weights and stores a manifest describing the source.
+   - *Genesis Mode* scaffolds a placeholder directory so that custom training pipelines can drop in freshly trained weights.
+3. **Mesh Coordination:** After provisioning, Red Queen starts a FastAPI server that exposes REST endpoints for status queries and node onboarding.
+
+**Primary API Surface**
+
+| Endpoint | Method | Purpose |
+|----------|--------|---------|
+| `/status` | GET | Returns the active manifest, bootstrap mode, and a list of registered nodes. |
+| `/join` | POST | Accepts `{ "node_id", "address", "capabilities", "metadata" }` to register or update a node. |
+| `/heartbeat` | POST | Refreshes the `last_heartbeat` timestamp for a registered node. |
+| `/nodes` | GET | Lists every registered node with timestamps and metadata. |
+
+**Launch & Join Examples**
+
+```bash
+# Start the Red Queen service
+python red_queen_service.py --model-path ./core_agent_model --port 8000 --public-url https://redqueen.example.com/join
+
+# Register a new endpoint (run on the joining node)
+curl -X POST https://redqueen.example.com/join \
+  -H 'Content-Type: application/json' \
+  -d '{
+        "node_id": "endpoint-1",
+        "address": "http://endpoint-1.internal:7000",
+        "capabilities": ["inference"],
+        "metadata": {"region": "us-east", "operator": "Alice"}
+      }'
+
+# Check cluster status from any operator console
+curl https://redqueen.example.com/status
+```
+
+On start-up, the service prints the exact `curl` command above so operators can broadcast join instructions to custodians. Watch the logs for each join or heartbeat event and review metadata for policy compliance before approving production access.
 
 ## 7. 🌌 Growing the Mesh: The Discovery & Federation Protocol
 
@@ -222,5 +279,6 @@ Therefore, we offer this knowledge with a solemn warning: **Tread with caution.*
 | Date       | Version | Change Summary |
 |------------|---------|----------------|
 | 2025-10-16 | 1.4     | Added Genesis/Endpoint bootstrap mode selector, updated launch instructions, and refreshed diagrams to document the new branching workflow and its operational safeguards. |
+| 2025-10-17 | 1.5     | Introduced the Red Queen master node service, documented its bootstrap automation, API surface, and operator runbooks for mesh coordination. |
 
 *This is not just another AI framework. It is a proposal for a new kind of intelligence: lawful, modular, and accountable by design. It is an open invitation to build not just smarter machines, but wiser systems. The bootstrap awaits.*

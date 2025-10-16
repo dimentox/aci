@@ -7,6 +7,25 @@ Original file is located at
     https://colab.research.google.com/drive/1FVhVgH1gZ8T8KNDD-D46_8oDyWvYCbZ1
 """
 
+import subprocess
+import sys
+
+
+def install_packages(packages):
+    """Install required pip packages for the bootstrap workflow."""
+
+    if not packages:
+        return
+
+    print("Installing necessary libraries via pip...")
+    try:
+        subprocess.check_call([sys.executable, "-m", "pip", "install", "--quiet"] + packages)
+        print("✅ Dependencies installed.")
+    except subprocess.CalledProcessError as exc:
+        print(f"⚠️ Failed to install dependencies: {exc}")
+        raise
+
+
 mode = input("Select bootstrap mode [genesis/endpoint]: ").strip().lower()
 if mode not in ["genesis", "endpoint"]:
     raise ValueError("Invalid mode. Choose 'genesis' or 'endpoint'.")
@@ -95,8 +114,15 @@ if GENESIS_MODE:
     # -----------------------------------------------------------------------------
     # Part 1: Initial Setup & Authentication
     # -----------------------------------------------------------------------------
-    print("Installing necessary libraries...")
-    # !pip install -q transformers datasets accelerate bitsandbytes torch huggingface_hub gradio
+    install_packages([
+        "transformers",
+        "datasets",
+        "accelerate",
+        "bitsandbytes",
+        "torch",
+        "huggingface_hub",
+        "gradio",
+    ])
 
     import os
     import json
@@ -314,6 +340,11 @@ else:
     ).strip()
     if not PRETRAINED_MODEL_URL:
         PRETRAINED_MODEL_URL = "https://huggingface.co/dimentox/aci-core-model"
+    install_packages([
+        "transformers",
+        "torch",
+        "huggingface_hub",
+    ])
     from transformers import AutoModelForCausalLM, AutoTokenizer
     tokenizer = AutoTokenizer.from_pretrained(PRETRAINED_MODEL_URL)
     model = AutoModelForCausalLM.from_pretrained(PRETRAINED_MODEL_URL)

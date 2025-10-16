@@ -1,7 +1,6 @@
-"""Minimal endpoint registration helper for the ACI mesh.
+"""Evolutionary mesh registration helper CLI.
 
-This script is a convenience wrapper that registers a node with the
-MCP orchestrator and optionally sends a heartbeat.
+See From ACI to CCI A Fractal Offloading Architecture for Distributed Intelligence.md, Section 7.
 """
 
 from __future__ import annotations
@@ -25,13 +24,13 @@ def parse_metadata(pairs: List[str]) -> Dict[str, str]:
 
 def build_argument_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
-        description="Register this endpoint with the MCP orchestrator.",
+        description="Evolutionary mesh helper: register this endpoint with an MCP orchestrator when federation is enabled.",
     )
     parser.add_argument("--node-id", required=True, help="Unique identifier for this endpoint")
     parser.add_argument(
         "--master-url",
         required=True,
-        help="Full join URL exposed by the MCP service (e.g. http://host:8000/join)",
+        help="Full join URL exposed by the MCP service when the evolutionary mesh extension is enabled (e.g. http://host:8000/join)",
     )
     parser.add_argument("--address", help="Optional callback address for this endpoint")
     parser.add_argument(

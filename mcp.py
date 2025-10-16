@@ -1,10 +1,13 @@
-"""Master Control Program (MCP) orchestrator for the ACI mesh.
+"""Master Control Program (MCP) orchestrator for the ACI Pantheon.
+
+See Artificial_Collective_Intelligence__Beyond_AGI-published.pdf, Section 2.2.
 
 The MCP bootstraps the core agent artefacts when required, loads all
 Pantheon daemon components from a configuration file, and exposes a
 FastAPI control plane for mesh coordination. Incoming requests can be
 processed through the Circle of Daemons pipeline to exercise the
-sanction, audit, and chaos feedback loops.
+sanction, audit, and chaos feedback loops while respecting canonical
+governance defaults.
 """
 from __future__ import annotations
 
@@ -145,6 +148,14 @@ class MCPOrchestrator:
             status.append(info)
         return status
 
+    def mesh_registration_settings(self) -> Dict[str, Any]:
+        features = self.config.get("features", {})
+        mesh = features.get("mesh_registration", {})
+        return {
+            "enabled": bool(mesh.get("enabled", False)),
+            "note": mesh.get("note"),
+        }
+
 
 def print_colab_helper_instructions(model_path: Path) -> None:
     LOGGER.info("No Core Agent artefacts detected at %s", model_path)
@@ -195,7 +206,7 @@ def parse_args(argv: Optional[List[str]] = None) -> argparse.Namespace:
     parser.add_argument(
         "--public-url",
         help=(
-            "Optional public URL that new endpoints should use when joining the mesh. "
+            "Optional public URL used when the evolutionary mesh federation join endpoint is enabled. "
             "If omitted, instructions use the host/port combination."
         ),
     )
@@ -419,68 +430,86 @@ def create_app(manifest: Dict[str, Any], orchestrator: MCPOrchestrator) -> FastA
 
     orchestrator.load_config()
     orchestrator.register_components()
+    mesh_settings = orchestrator.mesh_registration_settings()
 
     app.state.manifest = manifest
     app.state.mesh_registry: Dict[str, Dict[str, Any]] = {}
     app.state.orchestrator = orchestrator
+    app.state.mesh_settings = mesh_settings
 
     @app.get("/")
     async def root() -> Dict[str, Any]:
-        return {
+        response: Dict[str, Any] = {
             "message": "Master Control Program online.",
-            "join_endpoint": "/join",
-            "nodes_registered": len(app.state.mesh_registry),
             "components": app.state.orchestrator.workflow,
+            "mesh_registration": dict(mesh_settings),
         }
+        if mesh_settings["enabled"]:
+            response.update(
+                {
+                    "join_endpoint": "/join",
+                    "nodes_registered": len(app.state.mesh_registry),
+                }
+            )
+        return response
 
     @app.get("/status")
     async def status() -> Dict[str, Any]:
-        return {
+        status_payload: Dict[str, Any] = {
             "model_ready": True,
             "manifest": app.state.manifest,
             "components": app.state.orchestrator.component_status(),
             "workflow": app.state.orchestrator.workflow,
-            "registered_nodes": list(app.state.mesh_registry.values()),
+            "mesh_registration": dict(mesh_settings),
         }
+        if mesh_settings["enabled"]:
+            status_payload["registered_nodes"] = list(
+                app.state.mesh_registry.values()
+            )
+        return status_payload
 
-    @app.get("/nodes")
-    async def list_nodes() -> Dict[str, Any]:
-        return {"nodes": list(app.state.mesh_registry.values())}
+    if mesh_settings["enabled"]:
+        # Evolutionary Extension: Mesh Federation & Endpoint Registration
+        # See: From ACI to CCI... Section "Fractal Evolution"
 
-    @app.post("/join", response_model=JoinResponse)
-    async def join(request: JoinRequest) -> JoinResponse:
-        if not request.node_id:
-            raise HTTPException(status_code=400, detail="node_id is required")
+        @app.get("/nodes")
+        async def list_nodes() -> Dict[str, Any]:
+            return {"nodes": list(app.state.mesh_registry.values())}
 
-        registration = app.state.mesh_registry.get(request.node_id, {}).copy()
-        timestamp = datetime.utcnow().isoformat() + "Z"
-        registration.update(
-            {
-                "node_id": request.node_id,
-                "address": request.address,
-                "capabilities": request.capabilities,
-                "metadata": request.metadata,
-                "registered_at": timestamp,
-                "last_heartbeat": timestamp,
-            }
-        )
-        app.state.mesh_registry[request.node_id] = registration
-        LOGGER.info("Node registered: %s", request.node_id)
-        return JoinResponse(
-            status="accepted",
-            registered_at=timestamp,
-            join_endpoint="/join",
-        )
+        @app.post("/join", response_model=JoinResponse)
+        async def join(request: JoinRequest) -> JoinResponse:
+            if not request.node_id:
+                raise HTTPException(status_code=400, detail="node_id is required")
 
-    @app.post("/heartbeat")
-    async def heartbeat(request: JoinRequest) -> Dict[str, Any]:
-        existing = app.state.mesh_registry.get(request.node_id)
-        if not existing:
-            raise HTTPException(status_code=404, detail="Node not registered")
-        timestamp = datetime.utcnow().isoformat() + "Z"
-        existing["last_heartbeat"] = timestamp
-        LOGGER.debug("Heartbeat received from %s", request.node_id)
-        return {"status": "ok", "timestamp": timestamp}
+            registration = app.state.mesh_registry.get(request.node_id, {}).copy()
+            timestamp = datetime.utcnow().isoformat() + "Z"
+            registration.update(
+                {
+                    "node_id": request.node_id,
+                    "address": request.address,
+                    "capabilities": request.capabilities,
+                    "metadata": request.metadata,
+                    "registered_at": timestamp,
+                    "last_heartbeat": timestamp,
+                }
+            )
+            app.state.mesh_registry[request.node_id] = registration
+            LOGGER.info("Node registered: %s", request.node_id)
+            return JoinResponse(
+                status="accepted",
+                registered_at=timestamp,
+                join_endpoint="/join",
+            )
+
+        @app.post("/heartbeat")
+        async def heartbeat(request: JoinRequest) -> Dict[str, Any]:
+            existing = app.state.mesh_registry.get(request.node_id)
+            if not existing:
+                raise HTTPException(status_code=404, detail="Node not registered")
+            timestamp = datetime.utcnow().isoformat() + "Z"
+            existing["last_heartbeat"] = timestamp
+            LOGGER.debug("Heartbeat received from %s", request.node_id)
+            return {"status": "ok", "timestamp": timestamp}
 
     @app.post("/circle")
     async def circle(request: CircleRequest) -> Dict[str, Any]:
@@ -493,7 +522,18 @@ def create_app(manifest: Dict[str, Any], orchestrator: MCPOrchestrator) -> FastA
     return app
 
 
-def print_join_instructions(host: str, port: int, public_url: Optional[str]) -> None:
+def print_join_instructions(
+    host: str, port: int, public_url: Optional[str], mesh_settings: Dict[str, Any]
+) -> None:
+    if not mesh_settings.get("enabled"):
+        LOGGER.info(
+            "Mesh federation join endpoints are disabled by default (evolutionary extension)."
+        )
+        note = mesh_settings.get("note")
+        if note:
+            LOGGER.info(note)
+        return
+
     join_url = public_url.rstrip("/") if public_url else f"http://{host}:{port}/join"
     status_url = join_url.rsplit("/", 1)[0] + "/status"
     LOGGER.info("\n=== MCP Ready ===")
@@ -536,7 +576,8 @@ def main(argv: Optional[List[str]] = None) -> None:
         LOGGER.error("Failed to initialise MCP components: %s", exc)
         sys.exit(1)
 
-    print_join_instructions(args.host, args.port, args.public_url)
+    mesh_settings = orchestrator.mesh_registration_settings()
+    print_join_instructions(args.host, args.port, args.public_url, mesh_settings)
 
     if uvicorn is None:
         LOGGER.error("uvicorn is required to run the MCP API server. Install it via 'pip install uvicorn'.")

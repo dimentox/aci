@@ -1,4 +1,7 @@
-"""Discordant daemon injects chaos, fuzzing, and anti-stagnation challenges."""
+"""Discordant daemon injects chaos, fuzzing, and anti-stagnation challenges.
+
+See From ACI to CCI A Fractal Offloading Architecture for Distributed Intelligence.md, Section 7.
+"""
 from __future__ import annotations
 
 import logging

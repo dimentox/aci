@@ -1,4 +1,7 @@
-"""Sanctifier daemon validates actions against the Constitutional Logic Document (CLD)."""
+"""Sanctifier daemon validates actions against the Constitutional Logic Document (CLD).
+
+See Artificial_Collective_Intelligence__Beyond_AGI-published.pdf, Section 3.4.
+"""
 from __future__ import annotations
 
 import logging
